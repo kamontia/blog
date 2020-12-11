@@ -1,5 +1,12 @@
 import colors from 'vuetify/es5/util/colors'
 
+const { getConfigForKeys } = require('./src/lib/config.js')
+const CMSConfig = getConfigForKeys([
+  'CTF_BLOG_POST_TYPE_ID',
+  'CTF_SPACE_ID',
+  'CTF_CDA_ACCESS_TOKEN'
+])
+
 export default {
   // Target (https://go.nuxtjs.dev/config-target)
   target: 'static',
@@ -31,6 +38,7 @@ export default {
     '@nuxt/typescript-build',
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
+    '@nuxtjs/dotenv',
   ],
 
   // Modules (https://go.nuxtjs.dev/config-modules)
@@ -46,7 +54,7 @@ export default {
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
     theme: {
-      dark: true,
+      dark: false,
       themes: {
         dark: {
           primary: colors.blue.darken2,
@@ -63,4 +71,14 @@ export default {
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {},
+  srcDir: 'src',
+  server: {
+    host: '0.0.0.0'
+  },
+  env: {
+    CTF_SPACE_ID: CMSConfig.CTF_SPACE_ID,
+    CTF_CDA_ACCESS_TOKEN: CMSConfig.CTF_CDA_ACCESS_TOKEN,
+    CTF_BLOG_POST_TYPE_ID: CMSConfig.CTF_BLOG_POST_TYPE_ID
+  },
+
 }
