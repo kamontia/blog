@@ -1,20 +1,32 @@
 <template>
-  <section class="index">
-    <div v-for="(post, i) in posts" :key="i">
-      <Card
-        :key="i"
-        :title="post.fields.title"
-        :id="post.sys.id"
-        :date="post.fields.publishDate"
-        :tags="post.fields.tags"
-        :src="post.fields.coverImage"
-        :postLink="{ name: 'posts-slug', params: { slug: post.fields.slug } }"
-      />
-    </div>
-    <div class="text-center">
-      <v-pagination v-model="page" :length="3"></v-pagination>
-    </div>
-  </section>
+    <v-row>
+      <v-col cols="12">
+        <section class="index">
+          <div v-for="(post, i) in posts" :key="i">
+            <Card
+              :key="i"
+              :title="post.fields.title"
+              :id="post.sys.id"
+              :date="post.fields.publishDate"
+              :tags="post.fields.tags"
+              :icatch="post.fields.coverImage.fields.file.url"
+              :postLink="{
+                name: 'posts-slug',
+                params: { slug: post.fields.slug },
+              }"
+              :body="post.fields.body"
+            />
+          </div>
+          <div class="text-center">
+            <v-pagination
+              v-model="page"
+              :length="5"
+              :total-visible="7"
+            ></v-pagination>
+          </div>
+        </section>
+      </v-col>
+    </v-row>
 </template>
 
 <script>
