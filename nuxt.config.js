@@ -24,10 +24,15 @@ export default {
   },
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
-  css: ['@/assets/css/global.css'],
+  css: [
+    '@/assets/css/global.css',
+    { src: '@/../node_modules/highlight.js/styles/atom-one-light.css', lang: "css" }
+  ],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
-  plugins: [],
+  plugins: [
+    { src: '@/plugins/convert_date' }
+  ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
   components: true,
@@ -45,6 +50,7 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    '@nuxtjs/markdownit'
   ],
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
@@ -65,6 +71,14 @@ export default {
           error: colors.deepOrange.accent4,
           success: colors.green.accent3,
         },
+        light: {
+          primary: '#e20074',
+          secondary: '#6c757d',
+          accent: '#3ea2fb',
+          error: '#dc3545',
+          petrol: '#17a499',
+          background: '#fff',
+        }
       },
     },
   },
@@ -80,5 +94,40 @@ export default {
     CTF_CDA_ACCESS_TOKEN: CMSConfig.CTF_CDA_ACCESS_TOKEN,
     CTF_BLOG_POST_TYPE_ID: CMSConfig.CTF_BLOG_POST_TYPE_ID
   },
+  markdownit: {
+    injected: true, // $mdを利用してmarkdownをhtmlにレンダリングする
+    breaks: true, // 改行コードを<br>に変換する
+    html: true, // HTML タグを有効にする
+    linkify: true, // URLに似たテキストをリンクに自動変換する
+    typography: true,  // 言語に依存しないきれいな 置換 + 引用符 を有効にします。
+    // highlight: function (str, lang) {
+    //   if (lang && hljs.getLanguage(lang)) {
+    //     try {
+    //       return hljs.highlight(lang, str).value;
+    //     } catch (__) { }
+    //   }
 
+    //   return ''; // use external default escaping
+    // },
+    highlightjs: (str, lang) => {
+      const hljs = require('highlight.js'); 
+      if (lang && hljs.getLanguage(lang)) {
+        console.log(`string: ${str}`)
+        try {
+          return '<pre class="hljs111"><code>' +
+            hljs.highlight(lang, str, true).value +
+            '</code></pre>';
+        } catch (__) { }
+      }
+      console.log(`string: ${str}`)
+      // 言語設定がない場合、プレーンテキストとして表示する
+      return '<pre class="hljs"><code>' + hljs.highlight('plaintext', str, true).value + '</code></pre>';
+    },
+    use: [
+      'markdown-it-meta',
+      'markdown-it-highlightjs',
+      'markdown-it-table-of-contents',
+      'markdown-it-anchor'
+    ]
+  }
 }

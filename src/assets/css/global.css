@@ -5,3 +5,10 @@
 .v-pagination__item {
   box-shadow: none !important;
 }
+
+.v-application code {
+  background: unset !important;
+  color: unset !important;
+  border: 1px solid;
+  padding: 1rem !important;
+}

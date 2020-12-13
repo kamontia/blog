@@ -2,21 +2,22 @@
   <v-app>
     <div class="container">
       <header class="header">
-        <div class="title">ぼっすんぶろぐ</div>
+        <div class="title"><h1>へっぽこSEの備忘録</h1></div>
       </header>
       <div class="left"></div>
       <Menu class="menu"></Menu>
       <main class="main">
-            <v-layout wrap>
-              <v-main>
-                <nuxt />
-              </v-main>
-            </v-layout>
+        <v-layout wrap>
+          <v-main>
+            <nuxt />
+          </v-main>
+        </v-layout>
       </main>
       <div id="adsense"></div>
       <div class="right"></div>
       <footer class="footer">
-        <span>&copy; {{ new Date().getFullYear() }}</span>
+        <!-- <span>&copy; {{ new Date().getFullYear() }}</span> -->
+        <Footer />
       </footer>
     </div>
   </v-app>
@@ -35,12 +36,19 @@
     'footer footer footer ';
   min-height: 100vh;
   margin: 0 auto;
+  padding: 0;
+}
+.title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .header {
   grid-area: header;
   border: 1px solid #909090;
   display: flex;
   justify-content: center;
+  border-top: 0px;
 }
 .left {
   grid-area: left;
@@ -70,6 +78,7 @@
 .footer {
   grid-area: footer;
   border: 1px solid #909090;
+  min-height: 100px;
 }
 #adsense {
   grid-area: adsense;

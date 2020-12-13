@@ -1,48 +1,79 @@
 <template>
   <v-container>
-    <!-- <v-row dense flat hover outlined tile>
-      <v-col :key="1" :cols="4"> <v-img :src="src"></v-img></v-col>
-      <v-card flat hover outlined tile height="200px">
-        <v-col :key="2" :cols="8">
-          <div class="d-flex flex-no-wrap justify-space-between">
-            <v-card-title class="headline" v-text="title"></v-card-title>
+    <nuxt-link :to="postLink" class="wrapper">
+      <v-row no-gutters class="box line">
+        <!-- 左：画像 -->
+        <v-col lg="4" md="12" sm="12" cols="12" class="pa-2 icatch">
+          <img v-bind:src="icatch" class="icatch" />
+        </v-col>
 
-            <v-card-text>{{ body }}</v-card-text>
-            <v-card-subtitle class="pb-0">{{ date }}}} </v-card-subtitle>
+        <!-- 右：投稿サマリ -->
+        <v-col lg="8" class="pa-2">
+          <div class="right-box">
+            <v-row>
+              <v-col>
+                <div class="title">
+                  <h1>{{ title }}</h1>
+                </div>
+              </v-col>
+            </v-row>
+            <!-- <div class="body">{{ body | readmore }}</div> -->
+            <v-row>
+              <v-col>
+                <div class="date">
+                  <v-icon left> mdi-calendar-clock </v-icon
+                  >{{ $format_date(date) }}
+                </div>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col>
+                <Tag :tags="tags"></Tag>
+              </v-col>
+            </v-row>
 
-            <nuxt-link :to="postLink" class="wrapper">
-              <v-btn class="ml-2 mt-3" height="40px" outlined tile right>
-                記事を読む</v-btn
-              >
-            </nuxt-link>
+            <!-- <v-btn class="ml-2 mt-3 read-button" height="30px" outlined tile>
+              記事を読む</v-btn
+            > -->
           </div>
         </v-col>
-      </v-card>
-    </v-row> -->
-    <v-row no-gutters class="box line">
-      <v-col md="4" class="pa-2 icatch">
-        <v-img v-bind:src="icatch" max-width="300px"></v-img>
-      </v-col>
-      <v-col md="89" class="pa-2">
-        <div class="title">{{ title }}</div>
-        <div class="body">{{ body | readmore }}</div>
-        <div class="date">投稿日: {{ formate_date(date) }}</div>
-        <nuxt-link :to="postLink" class="wrapper">
-          <v-btn class="ml-2 mt-3" height="30px" outlined tile>
-            記事を読む</v-btn
-          >
-        </nuxt-link>
-      </v-col>
-    </v-row>
+      </v-row>
+    </nuxt-link>
   </v-container>
 </template>
 
 <style scoped>
+.wrapper {
+  text-decoration: none;
+}
+.title {
+  color: #3c3c3c;
+}
+.body {
+  color: #3c3c3c;
+}
+.date {
+  color: #3c3c3c;
+}
+
+.right-box {
+  position: relative;
+  height: 100%;
+  /* line-height: 2.2rem; */
+}
+.read-button {
+  position: absolute;
+
+  bottom: 10px;
+}
 .box {
   margin: 0px;
 }
 .icatch {
   padding: 0px !important;
+  object-fit: cover;
+  width: 100%;
+  height: 200px;
 }
 .line {
   border: 1px solid #303030;
@@ -51,18 +82,16 @@
 
 
 <script>
+import Tags from '@/components/tag'
 export default {
-  props: ['title', 'id', 'date', 'tags', 'icatch', 'postLink', 'body'],
-  methods: {
-    formate_date: (date) => {
-      let formated_date = new Date(date).toISOString().slice(0, 10)
-      return formated_date
-    },
+  components: {
+    Tags,
   },
+  props: ['title', 'id', 'date', 'tags', 'icatch', 'postLink', 'body'],
   filters: {
     readmore: (text) => {
       if (!text) return ''
-      return text.toString().substr(0, 20) + '...'
+      return text.toString().substr(0, 50) + '...'
     },
   },
 }

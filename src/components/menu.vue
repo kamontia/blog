@@ -1,5 +1,5 @@
 <template>
-  <v-footer color="blue" padless>
+  <v-footer color="blue accent-2" padless>
     <v-row justify="center" no-gutters>
       <v-btn
         v-for="(link,i) in links"
@@ -33,11 +33,11 @@ export default {
         title: 'Author',
         path: 'author',
       },
-      {
-        title: 'Portfolio',
-        path: '',
-      },
-      { title: 'Contact', path: '' },
+      // {
+      //   title: 'Portfolio',
+      //   path: '',
+      // },
+      // { title: 'Contact', path: '' },
     ],
   }),
 }
