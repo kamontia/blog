@@ -4,14 +4,14 @@
       <header class="header">
         <div class="title"><h1>へっぽこSEの備忘録</h1></div>
       </header>
-      <div class="left"></div>
+      <div class="left d-none d-sm-flex"></div>
       <Menu class="menu"></Menu>
       <main class="main">
-        <v-layout wrap>
-          <v-main>
+        <v-main>
+          <!-- <v-container fluid> -->
             <nuxt />
-          </v-main>
-        </v-layout>
+          <!-- </v-container> -->
+        </v-main>
       </main>
       <div id="adsense"></div>
       <div class="right"></div>
@@ -23,21 +23,7 @@
   </v-app>
 </template>
 
-<style scoped>
-.container {
-  display: grid;
-  grid-template-rows: 80px 50px 250px auto 50px;
-  grid-template-columns: 200px 1fr 300px;
-  grid-template-areas:
-    'header header header '
-    'menu menu menu'
-    'left   main   adsense'
-    'left   main   right  '
-    'footer footer footer ';
-  min-height: 100vh;
-  margin: 0 auto;
-  padding: 0;
-}
+<style lang="scss" scoped>
 .title {
   display: flex;
   justify-content: center;
@@ -84,6 +70,48 @@
   grid-area: adsense;
   border: 1px solid #909090;
   border-top: 0px;
+}
+
+@media screen and (min-width: 600px) {
+  // スマホ 600px以上
+  .container {
+    display: grid;
+    grid-template-rows: 80px 50px 250px auto 50px;
+    grid-template-columns: 200px 1fr 300px;
+    grid-template-areas:
+      'header header header '
+      'menu menu menu'
+      'main   main   main'
+      'main   main   main  '
+      'footer footer footer ';
+    min-height: 100vh;
+    margin: 0 auto;
+    padding: 0;
+  }
+   h1 {
+    color: green;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  // タブレット、PC
+  .container {
+    display: grid;
+    grid-template-rows: 80px 50px 250px auto 50px;
+    grid-template-columns: 200px 1fr 300px;
+    grid-template-areas:
+      'header header header '
+      'menu menu menu'
+      'left   main   adsense'
+      'left   main   right  '
+      'footer footer footer ';
+    min-height: 100vh;
+    margin: 0 auto;
+    padding: 0;
+  }
+  h1 {
+    color: red;
+  }
 }
 </style>
 

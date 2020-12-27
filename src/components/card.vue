@@ -1,45 +1,46 @@
 <template>
-  <v-container>
-    <nuxt-link :to="postLink" class="wrapper">
-      <v-row no-gutters class="box line">
-        <!-- 左：画像 -->
-        <v-col lg="4" md="12" sm="12" cols="12" class="pa-2 icatch">
-          <img v-bind:src="icatch" class="icatch" />
-        </v-col>
+  <!-- <v-container> -->
+  <nuxt-link :to="postLink" class="wrapper">
+    <v-row no-gutters class="box line">
+      <!-- 左：画像 -->
+      <v-col lg="12" md="12" sm="12" cols="12" class="pa-2 icatch">
+      <!-- <v-col > -->
+        <img v-bind:src="icatch" class="icatch" />
+      </v-col>
 
-        <!-- 右：投稿サマリ -->
-        <v-col lg="8" class="pa-2">
-          <div class="right-box">
-            <v-row>
-              <v-col>
-                <div class="title">
-                  <h1>{{ title }}</h1>
-                </div>
-              </v-col>
-            </v-row>
-            <!-- <div class="body">{{ body | readmore }}</div> -->
-            <v-row>
-              <v-col>
-                <div class="date">
-                  <v-icon left> mdi-calendar-clock </v-icon
-                  >{{ $format_date(date) }}
-                </div>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col>
-                <Tag :tags="tags"></Tag>
-              </v-col>
-            </v-row>
+      <!-- 右：投稿サマリ -->
+      <v-col xl="12" lg="12" class="pa-2">
+        <div class="right-box">
+          <v-row>
+            <v-col>
+              <div class="title">
+                <h1>{{ title }}</h1>
+              </div>
+            </v-col>
+          </v-row>
+          <!-- <div class="body">{{ body | readmore }}</div> -->
+          <v-row>
+            <v-col>
+              <div class="date">
+                <v-icon left> mdi-calendar-clock </v-icon
+                >{{ $format_date(date) }}
+              </div>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+              <Tag :tags="tags"></Tag>
+            </v-col>
+          </v-row>
 
-            <!-- <v-btn class="ml-2 mt-3 read-button" height="30px" outlined tile>
+          <!-- <v-btn class="ml-2 mt-3 read-button" height="30px" outlined tile>
               記事を読む</v-btn
             > -->
-          </div>
-        </v-col>
-      </v-row>
-    </nuxt-link>
-  </v-container>
+        </div>
+      </v-col>
+    </v-row>
+  </nuxt-link>
+  <!-- </v-container> -->
 </template>
 
 <style scoped>
