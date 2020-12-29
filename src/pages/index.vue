@@ -10,7 +10,7 @@
             :date="post.fields.publishDate"
             :tags="post.fields.tags"
             :icatch="setEyeCatch(post).url"
-            :postLink="linkTo(post)"
+            :postLink="linkTo('posts', post)"
             :body="post.fields.body"
           />
         </div>
@@ -28,10 +28,9 @@
 
 <script>
 import Card from '~/components/card'
-import { createClient } from '~/plugins/contentful.js'
-import { mapGetters } from 'vuex'
 
-const client = createClient()
+import { mapState, mapGetters } from 'vuex'
+
 export default {
   transition: 'slide-left',
   components: {
@@ -43,30 +42,9 @@ export default {
       default: 1,
     },
   },
-  async asyncData({ env, params }) {
-    console.log(env)
-
-    let posts = []
-
-    await client
-      .getEntries({
-        content_type: env.CTF_BLOG_POST_TYPE_ID,
-        order: '-fields.publishDate',
-      })
-      .then((res) => {
-        // console.log(res)
-        posts = res.items
-      })
-      .catch(console.error)
-
-    return { posts }
-  },
   computed: {
-    linkTo: () => (obj) => {
-      console.log(obj.fields)
-      return { name: 'posts-slug', params: { slug: obj.fields.slug } }
-    },
-    ...mapGetters(['setEyeCatch'])
+    ...mapState(['posts']),
+    ...mapGetters(['setEyeCatch', 'linkTo']),
   },
 }
 </script>

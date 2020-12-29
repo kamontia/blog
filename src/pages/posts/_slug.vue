@@ -107,7 +107,6 @@ import { createClient } from '~/plugins/contentful.js'
 import { mapGetters } from 'vuex'
 import Tag from '@/components/tag'
 
-const client = createClient()
 export default {
   components: {
     Tag,
@@ -122,24 +121,16 @@ export default {
     ...mapGetters(['setEyeCatch']),
   },
   transition: 'slide-right',
-  async asyncData({ env, params }) {
-    console.log(params)
-    let currentPost = null
+  async asyncData({ params, payload, store, error }) {
+    const currentPost =
+      payload ||
+      (await store.state.posts.find((post) => post.fields.slug === params.slug))
 
-    await client
-      .getEntries({
-        content_type: env.CTF_BLOG_POST_TYPE_ID,
-        'fields.slug': params.slug,
-      })
-      .then((res) => {
-        console.log(res.items[0])
-        currentPost = res.items[0]
-      })
-      .catch(console.error)
-
-    console.log(currentPost.fields.tags)
-
-    return { currentPost }
+    if (currentPost) {
+      return { currentPost }
+    } else {
+      return error({ statusCode: 400 })
+    }
   },
 }
 </script>
