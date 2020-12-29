@@ -6,8 +6,8 @@
         <!-- ヘッダ部 -->
         <div class="wrap">
           <img
-            :src="currentPost.fields.coverImage.fields.file.url"
-            :alt="currentPost.fields.coverImage.fields.file.fileName"
+            :src="setEyeCatch(currentPost).url"
+            :alt="setEyeCatch(currentPost).title"
             class="head-img"
           />
           <div class="icatch-title">
@@ -74,7 +74,7 @@
   position: absolute;
   right: 10px;
   bottom: 15px;
-  margin-left:10px;
+  margin-left: 10px;
 }
 
 /* .img-box {
@@ -104,6 +104,7 @@ li {
 
 <script>
 import { createClient } from '~/plugins/contentful.js'
+import { mapGetters } from 'vuex'
 import Tag from '@/components/tag'
 
 const client = createClient()
@@ -116,6 +117,9 @@ export default {
       type: String,
       default: '',
     },
+  },
+  computed: {
+    ...mapGetters(['setEyeCatch']),
   },
   transition: 'slide-right',
   async asyncData({ env, params }) {
