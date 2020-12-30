@@ -8,10 +8,10 @@
             :title="post.fields.title"
             :id="post.sys.id"
             :date="post.fields.publishDate"
-            :tags="post.fields.tags"
             :icatch="setEyeCatch(post).url"
             :postLink="linkTo('posts', post)"
             :body="post.fields.body"
+            :tags="post.fields.tags"
           />
         </div>
         <div class="text-center">

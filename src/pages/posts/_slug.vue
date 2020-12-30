@@ -1,6 +1,7 @@
 <template>
   <div v-if="currentPost">
-    <!-- TODO: パンくずリスト入れる -->
+    <!-- パンくずリスト -->
+    <breadcrumbs :add-items="addbreads" />
     <v-row no-gutters>
       <v-col cols="12">
         <!-- ヘッダ部 -->
@@ -13,14 +14,24 @@
           <div class="icatch-title">
             <h1>{{ currentPost.fields.title }}</h1>
           </div>
-          <div class="date">
-            <v-icon left> mdi-calendar-clock </v-icon
-            >{{ $format_date(currentPost.fields.publishDate) }}
-          </div>
 
-          <div class="tags">
-            <Tag :tags="currentPost.fields.tags" />
-          </div>
+          <v-container fluid>
+            <v-row no-gutters>
+              <v-col :cols="12" :xl="4" :lg="4" :md="12" :sm="12">
+                <div class="date">
+                  <v-icon left> mdi-calendar-clock </v-icon>
+                  {{ $format_date(currentPost.fields.publishDate) }}
+                </div>
+              </v-col>
+
+              <v-col :cols="12" :xl="8" :lg="8" :md="12" :sm="12">
+                <div class="tags">
+                  <!-- <Tag :tags="currentPost.fields.category" /> -->
+                </div>
+              </v-col>
+            </v-row>
+          </v-container>
+
           <div class="categories"></div>
         </div>
         <!-- SNS Share Button -->
@@ -63,18 +74,14 @@
   text-align: center;
 }
 .date {
-  position: absolute;
   background-color: rgba(255, 255, 255, 0.8);
   padding: 5px 10px;
-  left: 15px;
-  bottom: 15px;
   border-radius: 5px;
 }
 .tags {
-  position: absolute;
-  right: 10px;
-  bottom: 15px;
-  margin-left: 10px;
+  /* right: 10px; */
+  /* margin-left: 0px */
+  margin: 0 0 0 auto;
 }
 
 /* .img-box {
@@ -111,23 +118,31 @@ export default {
   components: {
     Tag,
   },
-  props: {
-    id: {
-      type: String,
-      default: '',
-    },
-  },
+  props: [],
   computed: {
-    ...mapGetters(['setEyeCatch']),
+    ...mapGetters(['setEyeCatch', 'linkTo']),
+    addbreads() {
+      return [
+        {
+          icon: 'mdi-folder-outline',
+          text: this.category.fields.name,
+          to: this.linkTo('categories', this.category),
+        },
+      ]
+    },
   },
   transition: 'slide-right',
   async asyncData({ params, payload, store, error }) {
     const currentPost =
       payload ||
       (await store.state.posts.find((post) => post.fields.slug === params.slug))
-
+    
+    console.log(currentPost)
     if (currentPost) {
-      return { currentPost }
+      return {
+        currentPost,
+        category: currentPost.fields.category,
+      }
     } else {
       return error({ statusCode: 400 })
     }

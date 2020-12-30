@@ -6,6 +6,7 @@
       class="tags"
       v-bind:color="tag.fields.color"
       label
+      link
       text-color="white"
     >
       <div class="storoke">

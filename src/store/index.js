@@ -3,31 +3,40 @@ import client from '~/plugins/contentful'
 import { createClient } from '~/plugins/contentful.js'
 
 export const state = () => ({
-  posts: []
+  posts: [],
+  categories: [],
 })
 
 // 算出プロパティに類似
 export const getters = {
   setEyeCatch: () => (post) => {
     if (!!post.fields.coverImage && !!post.fields.coverImage.fields)
-      return { url: `https:${post.fields.coverImage.fields.file.url}`, title: post.fields.coverImage.fields.title }
-    else
-      return { url: defaultEyeCatch, title: 'defaultImage' }
+      return {
+        url: `https:${post.fields.coverImage.fields.file.url}`,
+        title: post.fields.coverImage.fields.title,
+      }
+    else return { url: defaultEyeCatch, title: 'defaultImage' }
   },
+  //
   linkTo: () => (name, obj) => {
     return { name: `${name}-slug`, params: { slug: obj.fields.slug } }
   },
-
-
+  relatedPosts: (state) => (category) => {
+    return state.posts.filter(post => post.fields.category.sys.id === category.sys.id)
+  },
 }
 
 // stateを操作するための関数群(同期)
 export const mutations = {
   setPosts(state, payload) {
     state.posts = payload
-  }
+  },
+  setCategories(state, payload) {
+    state.categories = payload
+    // console.log("===")
+    // console.log(state.categories)
+  },
 }
-
 
 // mutations の操作を各コンポーネントから呼び出す(非同期処理を定義)
 export const actions = {
@@ -42,6 +51,17 @@ export const actions = {
         commit('setPosts', res.items)
       })
       .catch(console.error)
-
-  }
+  },
+  async getCategories({ commit }) {
+    let client = createClient()
+    await client
+      .getEntries({
+        content_type: 'category',
+        // order: 'fields.sort',
+      })
+      .then((res) => {
+        commit('setCategories', res.items)
+      })
+      .catch(console.error)
+  },
 }

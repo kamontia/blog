@@ -1,6 +1,7 @@
 <template>
   <v-app>
-    <div class="container">
+    <div class="wrap">
+    <!-- <v-container :cols="10" :lg="10" :md="10"> -->
       <header class="header">
         <div class="title"><h1>へっぽこSEの備忘録</h1></div>
       </header>
@@ -9,7 +10,7 @@
       <main class="main">
         <v-main>
           <!-- <v-container fluid> -->
-            <nuxt />
+          <nuxt />
           <!-- </v-container> -->
         </v-main>
       </main>
@@ -19,6 +20,7 @@
         <!-- <span>&copy; {{ new Date().getFullYear() }}</span> -->
         <Footer />
       </footer>
+    <!-- </v-container> -->
     </div>
   </v-app>
 </template>
@@ -74,7 +76,7 @@
 
 @media screen and (min-width: 600px) {
   // スマホ 600px以上
-  .container {
+  .wrap {
     display: grid;
     grid-template-rows: 80px 50px 250px auto 50px;
     grid-template-columns: 200px 1fr 300px;
@@ -88,14 +90,14 @@
     margin: 0 auto;
     padding: 0;
   }
-   h1 {
+  h1 {
     color: green;
   }
 }
 
 @media screen and (min-width: 1024px) {
   // タブレット、PC
-  .container {
+  .wrap {
     display: grid;
     grid-template-rows: 80px 50px 250px auto 50px;
     grid-template-columns: 200px 1fr 300px;
@@ -106,7 +108,7 @@
       'left   main   right  '
       'footer footer footer ';
     min-height: 100vh;
-    margin: 0 auto;
+    margin: 0 50px;
     padding: 0;
   }
   h1 {
