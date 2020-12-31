@@ -26,7 +26,7 @@
 
               <v-col :cols="12" :xl="8" :lg="8" :md="12" :sm="12">
                 <div class="tags">
-                  <!-- <Tag :tags="currentPost.fields.category" /> -->
+                  <Tag :tags="currentPost.fields.tags" />
                 </div>
               </v-col>
             </v-row>
@@ -112,7 +112,7 @@ li {
 <script>
 import { createClient } from '~/plugins/contentful.js'
 import { mapGetters } from 'vuex'
-import Tag from '@/components/tag'
+import Tag from '@/components/ui/tag'
 
 export default {
   components: {

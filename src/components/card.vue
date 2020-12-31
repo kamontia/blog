@@ -83,7 +83,7 @@
 
 
 <script>
-import Tags from '@/components/tag'
+import Tags from '@/components/ui/tag'
 export default {
   components: {
     Tags,

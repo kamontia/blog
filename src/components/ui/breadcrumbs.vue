@@ -1,9 +1,13 @@
 <template>
   <v-breadcrumbs :items="breadcrumbs">
     <template v-slot:item="props">
-      <v-breadcrumbs-item :to="props.item.to">
+      <v-breadcrumbs-item
+        :to="props.item.to"
+        active-class=""
+        exact-active-class="v-breadcrumbs__item--disabled"
+      >
         <!-- icon -->
-        <v-icon v-if="props.item.icon" color="primary">
+        <v-icon v-if="props.item.icon" :color="iconColor(props.item)">
           {{ props.item.icon }}
         </v-icon>
 
@@ -36,6 +40,12 @@ export default {
   computed: {
     breadcrumbs() {
       return this.items.concat(this.addItems)
+    },
+    iconColor() {
+      return (item) => {
+        console.log(item)
+        return item.iconColor || 'primary'
+      }
     },
   },
 }

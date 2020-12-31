@@ -1,4 +1,5 @@
 import colors from 'vuetify/es5/util/colors'
+const client = require('./src/plugins/contentful.js').createClient()
 
 const { getConfigForKeys } = require('./src/lib/config.js')
 const CMSConfig = getConfigForKeys([
@@ -33,7 +34,7 @@ export default {
   ],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
-  plugins: [{ src: '@/plugins/convert_date' }],
+  plugins: [{ src: '@/plugins/convert_date' }, { src: '@plugins/components' }],
 
   router: {
     middleware: ['getContentful'],
@@ -141,5 +142,41 @@ export default {
       'markdown-it-table-of-contents',
       'markdown-it-anchor',
     ],
+  },
+  generate: {
+    routes() {
+      return Promise.all([
+        client.getEntries({
+          content_type: process.env.CTF_BLOG_POST_TYPE_ID,
+        }),
+        client.getEntries({
+          content_type: 'category',
+        }),
+        client.getEntries({
+          content_type: 'tag',
+        }),
+      ]).then(([posts, categories, tags]) => {
+        return [
+          ...posts.items.map((post) => {
+            return {
+              route: `posts/${post.fields.slug}`,
+              payload: post,
+            }
+          }),
+          ...categories.items.map((category) => {
+            return {
+              route: `categories/${category.fields.slug}`,
+              payload: category,
+            }
+          }),
+          ...tags.items.map((tag) => {
+            return {
+              route: `tags/${tag.fields.slug}`,
+              payload: tag,
+            }
+          }),
+        ]
+      })
+    },
   },
 }

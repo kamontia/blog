@@ -1,11 +1,13 @@
 <template>
   <div v-if="tags">
     <v-chip
-      v-for="(tag, i) in tags"
-      :key="i"
-      class="tags"
+      v-for="tag in tags"
+      :key="tag.sys.id"
+      :to="linkTo('tags', tag)"
+      class="ma-1"
       v-bind:color="tag.fields.color"
       label
+      small
       link
       text-color="white"
     >
@@ -27,7 +29,13 @@
 </style>
 
 <script>
+import { mapState, mapGetters } from 'vuex'
+
 export default {
   props: ['tags'],
+  computed: {
+    ...mapGetters(['linkTo']),
+  },
+ 
 }
 </script>
