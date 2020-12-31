@@ -3,7 +3,7 @@
     <div class="wrap">
     <!-- <v-container :cols="10" :lg="10" :md="10"> -->
       <header class="header">
-        <div class="title"><h1>へっぽこSEの備忘録</h1></div>
+        <div class="title"><h1>なんちってエンジニアの備忘録</h1></div>
       </header>
       <div class="left d-none d-sm-flex"></div>
       <Menu class="menu"></Menu>
@@ -90,9 +90,6 @@
     margin: 0 auto;
     padding: 0;
   }
-  h1 {
-    color: green;
-  }
 }
 
 @media screen and (min-width: 1024px) {
@@ -111,9 +108,7 @@
     margin: 0 50px;
     padding: 0;
   }
-  h1 {
-    color: red;
-  }
+
 }
 </style>
 

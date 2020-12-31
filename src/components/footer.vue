@@ -7,7 +7,7 @@
             flat
             tile
             width="100%"
-            class="blue accent-2 text-center"
+            class="indigo darken-2 text-center"
             min-height="100px"
           >
             <v-card-text class="white--text">
