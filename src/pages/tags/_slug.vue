@@ -14,7 +14,6 @@
 
 export default {
   asyncData({ payload, params, error, store, env }) {
-    // console.log(store.state.tags)
     const tag =
       payload ||
       store.state.tags.find((tag) => {

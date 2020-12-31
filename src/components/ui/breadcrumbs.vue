@@ -43,7 +43,6 @@ export default {
     },
     iconColor() {
       return (item) => {
-        console.log(item)
         return item.iconColor || 'primary'
       }
     },

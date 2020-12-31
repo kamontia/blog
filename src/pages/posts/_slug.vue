@@ -137,7 +137,6 @@ export default {
       payload ||
       (await store.state.posts.find((post) => post.fields.slug === params.slug))
     
-    console.log(currentPost)
     if (currentPost) {
       return {
         currentPost,

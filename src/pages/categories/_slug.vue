@@ -14,12 +14,9 @@
 import { mapState, mapGetters } from 'vuex'
 export default {
   async asyncData({ params, payload, store, error }) {
-    // console.log('Category:start')
-    console.log(params)
     const category =
       payload ||
       (await store.state.categories.find((post) => {
-        console.log(post)
         if (post.fields.slug == undefined) {
           return
         }
@@ -27,13 +24,10 @@ export default {
         return post.fields.slug.toUpperCase() === params.slug.toUpperCase()
       }))
 
-    console.log(category)
 
     if (category) {
-      console.log('Category:end')
       return { category }
     } else {
-      console.log('Error')
       return error({ statusCode: 400 })
     }
   },

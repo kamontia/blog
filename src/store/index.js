@@ -50,8 +50,6 @@ export const mutations = {
   },
   setCategories(state, payload) {
     state.categories = payload
-    // console.log("===")
-    // console.log(state.categories)
   },
   setLinks(state, entries) {
     state.tags = []
