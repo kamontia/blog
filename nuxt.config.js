@@ -11,8 +11,8 @@ const CMSConfig = getConfigForKeys([
 export default {
   // Target (https://go.nuxtjs.dev/config-target)
   target: 'static',
-
   generate: {
+    dir: 'docs',
     routes() {
       let client = createClient()
       return Promise.all([
