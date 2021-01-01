@@ -1,5 +1,5 @@
 import colors from 'vuetify/es5/util/colors'
-const client = require('./src/plugins/contentful.js').createClient()
+const { createClient } = require('./src/plugins/contentful.js')
 
 const { getConfigForKeys } = require('./src/lib/config.js')
 const CMSConfig = getConfigForKeys([
@@ -12,6 +12,43 @@ export default {
   // Target (https://go.nuxtjs.dev/config-target)
   target: 'static',
 
+  generate: {
+    routes() {
+      let client = createClient()
+      return Promise.all([
+        client.getEntries({
+          content_type: process.env.CTF_BLOG_POST_TYPE_ID,
+        }),
+        client.getEntries({
+          content_type: 'category',
+        }),
+        client.getEntries({
+          content_type: 'tag',
+        }),
+      ]).then(([posts, categories, tags]) => {
+        return [
+          ...posts.items.map((post) => {
+            return {
+              route: `/posts/${post.fields.slug}`,
+              payload: post,
+            }
+          }),
+          ...categories.items.map((category) => {
+            return {
+              route: `/categories/${category.fields.slug}`,
+              payload: category,
+            }
+          }),
+          ...tags.items.map((tag) => {
+            return {
+              route: `/tags/${tag.fields.slug}`,
+              payload: tag,
+            }
+          }),
+        ]
+      })
+    },
+  },
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
     titleTemplate: '%s - なんちって',
@@ -119,7 +156,6 @@ export default {
     highlightjs: (str, lang) => {
       const hljs = require('highlight.js')
       if (lang && hljs.getLanguage(lang)) {
-        console.log(`string: ${str}`)
         try {
           return (
             '<pre class="hljs111"><code>' +
@@ -128,7 +164,6 @@ export default {
           )
         } catch (__) {}
       }
-      console.log(`string: ${str}`)
       // 言語設定がない場合、プレーンテキストとして表示する
       return (
         '<pre class="hljs"><code>' +
@@ -142,41 +177,5 @@ export default {
       'markdown-it-table-of-contents',
       'markdown-it-anchor',
     ],
-  },
-  generate: {
-    routes() {
-      return Promise.all([
-        client.getEntries({
-          content_type: process.env.CTF_BLOG_POST_TYPE_ID,
-        }),
-        client.getEntries({
-          content_type: 'category',
-        }),
-        client.getEntries({
-          content_type: 'tag',
-        }),
-      ]).then(([posts, categories, tags]) => {
-        return [
-          ...posts.items.map((post) => {
-            return {
-              route: `posts/${post.fields.slug}`,
-              payload: post,
-            }
-          }),
-          ...categories.items.map((category) => {
-            return {
-              route: `categories/${category.fields.slug}`,
-              payload: category,
-            }
-          }),
-          ...tags.items.map((tag) => {
-            return {
-              route: `tags/${tag.fields.slug}`,
-              payload: tag,
-            }
-          }),
-        ]
-      })
-    },
   },
 }

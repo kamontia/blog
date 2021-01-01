@@ -136,7 +136,8 @@ export default {
     const currentPost =
       payload ||
       (await store.state.posts.find((post) => post.fields.slug === params.slug))
-    
+
+
     if (currentPost) {
       return {
         currentPost,

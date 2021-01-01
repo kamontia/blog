@@ -1,5 +1,5 @@
 import defaultEyeCatch from '~/assets/images/default.jpg'
-import client from '~/plugins/contentful'
+// import client from '~/plugins/contentful'
 import { createClient } from '~/plugins/contentful.js'
 
 export const state = () => ({
@@ -32,9 +32,9 @@ export const getters = {
     for (let i = 0; i < state.posts.length; i++) {
       const post = state.posts[i]
       if (post.fields.tags) {
-        const tag = post.fields.tags.find(
-          (tag) => tag.sys.id === currentTag.sys.id
-        )
+        const tag = post.fields.tags.find((tag) => {
+          return tag.sys.id === currentTag.sys.id
+        })
 
         if (tag) posts.push(post)
       }
@@ -47,9 +47,6 @@ export const getters = {
 export const mutations = {
   setPosts(state, payload) {
     state.posts = payload
-  },
-  setCategories(state, payload) {
-    state.categories = payload
   },
   setLinks(state, entries) {
     state.tags = []
@@ -75,21 +72,9 @@ export const actions = {
         include: 1,
       })
       .then((res) => {
-        commit('setLinks', res.includes.Entry)
         commit('setPosts', res.items)
+        commit('setLinks', res.includes.Entry)
       })
       .catch(console.error)
   },
-  // async getCategories({ commit }) {
-  //   let client = createClient()
-  //   await client
-  //     .getEntries({
-  //       content_type: 'category',
-  //       // order: 'fields.sort',
-  //     })
-  //     .then((res) => {
-  //       commit('setCategories', res.items)
-  //     })
-  //     .catch(console.error)
-  // },
 }
